@@ -29,28 +29,21 @@
   THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
+#ifndef EXCHANGEACTIVESYNCLOGGER_H
+#define EXCHANGEACTIVESYNCLOGGER_H
 
-Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
-    }
+#include <QObject>
 
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
+class ExchangeActiveSyncLogger : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ExchangeActiveSyncLogger(QObject *parent = 0);
 
-        text: emailLogger.canWrite ? "YES" : "NO"
-    }
+signals:
 
-    EmailLogger {
-        id: emailLogger
-    }
-}
+public slots:
+
+};
+
+#endif // EXCHANGEACTIVESYNCLOGGER_H

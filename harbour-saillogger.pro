@@ -3,7 +3,11 @@ TEMPLATE = subdirs
 src.subdir = src
 src.target = sub-src
 
-SUBDIRS = src
+plugins.subdir = src/plugin
+plugins.target = sub-plugin
+plugins.depends = sub-src
+
+SUBDIRS = src plugins
 
 QML_FILES = qml/main.qml \
             qml/pages/*.qml \

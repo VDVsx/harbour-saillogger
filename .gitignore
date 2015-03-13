@@ -16,5 +16,12 @@
 *.pro.user.*
 moc_*.cpp
 qrc_*.cpp
+*.moc
+*~
 Makefile
 *-build-*
+documentation.list
+
+# Bin
+
+harbour-saillogger

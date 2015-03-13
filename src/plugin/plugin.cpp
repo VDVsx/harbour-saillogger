@@ -29,28 +29,38 @@
   THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
+#include <QtGlobal>
+#include <QtQml>
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
 
-Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
+#include "emaillogger.h"
+
+class Q_DECL_EXPORT SailLoggerPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "harbour.saillogger")
+
+public:
+    SailLoggerPlugin(){}
+
+    virtual ~SailLoggerPlugin() {}
+
+    void initializeEngine(QQmlEngine *engine, const char *uri)
+    {
+        Q_ASSERT(uri == QLatin1String("harbour.saillogger"));
+        Q_UNUSED(engine)
+        Q_UNUSED(uri)
     }
 
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
+    void registerTypes(const char *uri)
+    {
+        Q_ASSERT(uri == QLatin1String("harbour.saillogger"));
 
-        text: emailLogger.canWrite ? "YES" : "NO"
+        qmlRegisterType<EmailLogger>(uri, 0, 1, "EmailLogger");
     }
+};
 
-    EmailLogger {
-        id: emailLogger
-    }
-}
+#include "plugin.moc"
+
+

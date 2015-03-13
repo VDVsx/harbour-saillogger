@@ -37,7 +37,9 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QGuiApplication* app = SailfishApp::application(argc, argv);
+    app->setApplicationVersion(QString(APP_VERSION));
     QQuickView* view = SailfishApp::createView();
+    view->engine()->addImportPath(SailfishApp::pathTo("qml/").toString());
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
     view->showFullScreen();
     

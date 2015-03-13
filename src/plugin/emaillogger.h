@@ -29,28 +29,39 @@
   THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
+#ifndef EMAILLOGGER_H
+#define EMAILLOGGER_H
 
-Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
-    }
+#include <QObject>
+#include <QSettings>
 
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
+class EmailLogger : public QObject
+{
+    Q_OBJECT
+public:
+    explicit EmailLogger(QObject *parent = 0);
+    ~EmailLogger();
 
-        text: emailLogger.canWrite ? "YES" : "NO"
-    }
+    Q_PROPERTY(bool canWrite READ canWrite NOTIFY canWriteChanged FINAL)
 
-    EmailLogger {
-        id: emailLogger
-    }
-}
+    bool canWrite() const;
+
+signals:
+    void canWriteChanged();
+
+public slots:
+
+private:
+    QSettings* m_settings;
+
+    bool m_canWrite;
+    bool m_fileLogEnabled;
+
+    bool m_messaging;
+    bool m_imap;
+    bool m_smtp;
+    bool m_pop;
+
+};
+
+#endif // EMAILLOGGER_H

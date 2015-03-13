@@ -29,28 +29,31 @@
   THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
+#include "emaillogger.h"
 
-Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
-    }
+#include <QFileInfo>
+#include <QDir>
+#include <QDebug>
 
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
+EmailLogger::EmailLogger(QObject *parent) :
+    QObject(parent),
+    m_canWrite(true)
+{
+    // This is ~/.config/QtProject/Messageserver.conf
+    m_settings = new QSettings("QtProject", "Messageserver", this);
 
-        text: emailLogger.canWrite ? "YES" : "NO"
-    }
+    QString settingsFile = m_settings->fileName();
+    m_canWrite = m_settings->isWritable();
 
-    EmailLogger {
-        id: emailLogger
-    }
+    qDebug() << "File name is: " << settingsFile;
+    qDebug() << "File is writable ?" << m_canWrite;
+}
+
+EmailLogger::~EmailLogger()
+{
+}
+
+bool EmailLogger::canWrite() const
+{
+    return m_canWrite;
 }

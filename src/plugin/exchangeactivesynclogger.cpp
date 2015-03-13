@@ -29,28 +29,9 @@
   THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
+#include "exchangeactivesynclogger.h"
 
-Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
-    }
-
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-
-        text: emailLogger.canWrite ? "YES" : "NO"
-    }
-
-    EmailLogger {
-        id: emailLogger
-    }
+ExchangeActiveSyncLogger::ExchangeActiveSyncLogger(QObject *parent) :
+    QObject(parent)
+{
 }

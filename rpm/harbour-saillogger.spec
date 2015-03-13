@@ -23,7 +23,7 @@ Application to collect sailfishOS logs.
 %setup -q -n %{name}-%{version}
 
 %build
-%qmake5
+%qmake5 VERSION=%{version}
 make %{?_smp_mflags}
 
 %install
@@ -38,4 +38,6 @@ desktop-file-install --delete-original \
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_datadir}/%{name}/qml
+%{_datadir}/%{name}/qml/harbour/saillogger/qmldir
+%{_datadir}/%{name}/qml/harbour/saillogger/libharboursaillogger.so
 %{_datadir}/applications/%{name}.desktop
