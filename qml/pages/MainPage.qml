@@ -12,9 +12,9 @@
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the name of the Jolla Ltd nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
+    * Neither the name of the author nor any other contributors names
+      may be used to endorse or promote products derived from this software
+      without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -31,26 +31,47 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import harbour.saillogger 0.1
 
 Page {
-    PageHeader {
-        id: pageHeader
-        title: "SailfishOS logger"
-    }
 
-    Label {
-        anchors {
-            top: pageHeader.bottom
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
+    SilicaFlickable {
+        id: flickable
+        anchors.fill: parent
+
+        PageHeader {
+            id: pageHeader
+            title: "SailfishOS logger"
         }
 
-        text: emailLogger.canWrite ? "YES" : "NO"
-    }
+        SectionHeader {
+            id: emailSection
+            anchors {
+                top: pageHeader.bottom
+                topMargin: Theme.paddingLarge
+            }
+            //: Label explaining that the following fields are related to email
+            //% "Email Loggers"
+            text: qsTrId("harbour_saillogger_email_loggers")
+        }
 
-    EmailLogger {
-        id: emailLogger
-    }
+        Button {
+            id: emailLogger
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: emailSection.bottom
+                topMargin: Theme.paddingLarge
+            }
+            text: qsTr("Email Logger")
+            onClicked: pageStack.push(Qt.resolvedUrl('EmailLogger.qml'))
+        }
+        Button {
+            id: exchangeLogger
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: emailLogger.bottom
+                topMargin: Theme.paddingLarge
+            }
+            text: qsTr("Exchange ActiveSync Logger")
+         }
+     }
 }

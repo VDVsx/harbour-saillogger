@@ -12,9 +12,9 @@
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the name of the Jolla Ltd nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
+    * Neither the name of the author nor any other contributors names
+      may be used to endorse or promote products derived from this software
+      without specific prior written permission.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -38,24 +38,38 @@
 class EmailLogger : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(categories)
 public:
     explicit EmailLogger(QObject *parent = 0);
     ~EmailLogger();
 
     Q_PROPERTY(bool canWrite READ canWrite NOTIFY canWriteChanged FINAL)
+    Q_PROPERTY(bool loggingOn READ loggingOn WRITE setLoggingOn NOTIFY loggingOnChanged FINAL)
+
+    enum categories { Messaging, IMAP, SMTP, POP };
 
     bool canWrite() const;
+    bool loggingOn() const;
+    void setLoggingOn(bool state);
+
+    Q_INVOKABLE bool category(const categories category) const;
+    Q_INVOKABLE void setCategory(const categories category, const bool status);
 
 signals:
     void canWriteChanged();
+    void loggingOnChanged();
 
 public slots:
 
 private:
+
+    void loadCategories();
+
     QSettings* m_settings;
 
+    bool m_dirty;
     bool m_canWrite;
-    bool m_fileLogEnabled;
+    bool m_loggingOn;
 
     bool m_messaging;
     bool m_imap;
